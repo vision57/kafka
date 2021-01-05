@@ -39,6 +39,11 @@ allprojects {
 
   repositories {
     mavenCentral()
+    maven {
+      // url 'http://nexus.rivendell-c.com:8081/nexus/content/groups/zuche-proxy-public/'
+      // url 'http://maven.luckincoffee.com/nexus/content/groups/public/'
+      url 'http://maven.aliyun.com/nexus/content/groups/public/'
+    }
   }
 
   apply plugin: 'com.github.ben-manes.versions'

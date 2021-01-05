@@ -75,9 +75,11 @@ class Replica(val brokerId: Int,
    * high frequency.
    */
   def updateLogReadResult(logReadResult : LogReadResult) {
-    if (logReadResult.info.fetchOffsetMetadata.messageOffset >= logReadResult.leaderLogEndOffset)
+    // ??
+    if (logReadResult.info.fetchOffsetMetadata.messageOffset >= logReadResult.leaderLogEndOffset) {
+      // logReadResult.leaderLogEndOffset是读文件开始前的leo快照，而后读文件可能已经有数据写入，所以到这里不一定是空拉取
       _lastCaughtUpTimeMs = math.max(_lastCaughtUpTimeMs, logReadResult.fetchTimeMs)
-    else if (logReadResult.info.fetchOffsetMetadata.messageOffset >= lastFetchLeaderLogEndOffset)
+    } else if (logReadResult.info.fetchOffsetMetadata.messageOffset >= lastFetchLeaderLogEndOffset)
       _lastCaughtUpTimeMs = math.max(_lastCaughtUpTimeMs, lastFetchTimeMs)
 
     logStartOffset = logReadResult.followerLogStartOffset
